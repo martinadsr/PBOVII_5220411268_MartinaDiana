@@ -1,0 +1,99 @@
+class Pertanian:
+    def __init__(self, lokasi, luas, perte):
+        self._lokasi = lokasi
+        self._luas = luas
+        self._perte = perte
+
+    def get_perte(self):
+        return self._perte
+    
+    def info_pertanian(self):
+        print(f"Selamat datang di {self.get_perte()} pertanianan di {self._lokasi}!")
+        print(f"Peternakan ini memiliki luas {self._luas} hektar")
+
+class Tanaman(Pertanian):
+    def __init__(self, nama, hasil_per_hektar):
+        super().__init__("Undefined", 0, "Undefined")
+        self._nama = nama
+        self._hasil_per_hektar = hasil_per_hektar
+
+    def hitung_hasil(self, hektar):
+        total_hasil = self._hasil_per_hektar * hektar
+        return total_hasil
+
+class TanamanHias(Pertanian):
+    def __init__(self, nama, jenis, keindahan):
+        super().__init__("Undefined", 0, "Undefined")
+        self._nama = nama
+        self._jenis = jenis
+        self._keindahan = keindahan
+
+    def info_tanaman_hias(self):
+        print(f"Ini adalah tanaman hias {self._nama} dengan jenis {self._jenis} yang berada di kebun kami")
+
+class Buah(Tanaman):
+    def __init__(self, nama, hasil_per_hektar, jenis, rasa):
+        super().__init__(nama, hasil_per_hektar)
+        self._jenis = jenis
+        self._rasa = rasa
+
+    def hitung_hasil(self, hektar):
+        total_hasil = super().hitung_hasil(hektar) * 0.9
+        return total_hasil
+
+    def matang(self):
+        print(f"{self._nama} sudah matang.")
+
+    def siap_panen(self):
+        return f"{self._nama} dengan jenis {self._jenis} dan rasa {self._rasa} siap panen."
+    
+class Sayur(Tanaman):
+    def __init__(self, nama, hasil_per_hektar, warna):
+        super().__init__(nama, hasil_per_hektar)
+        self._warna = warna
+
+    def hitung_hasil(self, hektar):
+        total_hasil = super().hitung_hasil(hektar) * 1.1
+        return total_hasil
+
+    def panen(self):
+        print(f"Siap panen {self._warna} {self._nama}.")
+
+class Padi(Tanaman):
+    def __init__(self, hasil_per_hektar):
+        super().__init__("Padi", hasil_per_hektar)
+
+    def hitung_hasil(self, hektar):
+        total_hasil = super().hitung_hasil(hektar)
+        return total_hasil
+
+    def belum_siap_panen(self):
+        return "Padi belum siap dipanen."
+
+pertanian1 = Pertanian("Harvest Town", 100, "Mid Valley")
+pertanian1.info_pertanian()
+
+tanaman = [TanamanHias("Mawar", "Bunga", "Merah"), Buah("Apel", 50, "Jenis Apel", "Manis"), Buah("Jeruk", 60, "Mandarin", "Citrus"), Sayur("Wortel", 30, "Orange"), Sayur("Selada", 25, "Hijau"), Padi(80)]
+
+for tanam in tanaman:
+    if isinstance(tanam, TanamanHias):
+        tanam.info_tanaman_hias()
+    elif isinstance(tanam, Buah):
+        hektar = 10
+        total_hasil = tanam.hitung_hasil(hektar)
+        formatted_hasil = int(total_hasil) if total_hasil.is_integer() else total_hasil
+        print(f"Total hasil {tanam._nama}: {formatted_hasil} buah")
+        tanam.matang()
+        print(tanam.siap_panen())
+    elif isinstance(tanam, Sayur):
+        hektar = 10
+        total_hasil = tanam.hitung_hasil(hektar)
+        formatted_hasil = int(total_hasil) if total_hasil.is_integer() else total_hasil
+        print(f"Total hasil {tanam._nama}: {formatted_hasil} tanaman")
+        tanam.panen()
+    elif isinstance(tanam, Padi):
+        hektar = 10
+        total_hasil = tanam.hitung_hasil(hektar)
+        formatted_hasil = int(total_hasil) if total_hasil.is_integer() else total_hasil
+        print(f"Total padi musim ini diperkirakan {tanam._nama}: {formatted_hasil} kg")
+        print(tanam.belum_siap_panen())
